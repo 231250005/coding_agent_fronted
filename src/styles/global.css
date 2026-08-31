@@ -1,0 +1,88 @@
+/* 全局基础样式：body / 滚动条 / 过渡 / 工具类
+   主题变量（--bg-page 等）由 useTheme 从 theme.js 令牌注入，此处只引用 */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+/* NConfigProvider 会渲染一个无样式的包裹 div，会打断 height:100% 链条，这里补齐 */
+.n-config-provider {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  overflow: hidden;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+/* 滚动条：8px 圆角，thumb 颜色明显（避免太淡看不见） */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--text-tertiary) 55%, transparent);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--text-tertiary) 80%, transparent);
+  background-clip: padding-box;
+}
+
+/* 等宽字体工具类（代码 / diff / 工具参数） */
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* 单行省略 */
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 常规淡入过渡 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* 消息条目滑入 */
+.slide-up-enter-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
