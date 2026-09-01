@@ -1,7 +1,7 @@
 <script setup>
-// 上下文用量条：tokens 进度（相对可配置预算）+ LLM 调用次数
+// 上下文用量条：tokens 进度（相对窗口 128k）；超过压缩阈值（100k）变警示色
 import { computed } from 'vue'
-import { CONTEXT_BUDGET } from '@/config'
+import { CONTEXT_BUDGET, CONTEXT_COMPRESS_AT } from '@/config'
 import { formatTokens } from '@/utils/format'
 import { useChatStore } from '@/stores/chatStore'
 
@@ -13,7 +13,8 @@ const pct = computed(() => {
   return Math.min(100, (ctx / CONTEXT_BUDGET) * 100)
 })
 
-const danger = computed(() => pct.value >= 85)
+// 接近后端压缩阈值（100k）时进度条变警示色
+const danger = computed(() => (u.value?.context_tokens || 0) >= CONTEXT_COMPRESS_AT)
 </script>
 
 <template>
